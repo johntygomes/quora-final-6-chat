@@ -5,8 +5,7 @@
 <h1 class="title">Register</h1>
 
 
-<form method="POST" action="" class="register-form">
-  {% csrf_token %}
+
 <div class="fieldWrapper">
   <label for="{{form.email.id_for_label}}">Email:</label>
   {{form.email}}
@@ -32,8 +31,8 @@
   <span class="error">{{form.non_field_errors.as_ul}}</span>
 </div>
 {% endif %}
-<input type="submit" value="Register" class="submit-button"/>
-</form>
+<button type="button" class="submit-button">Register</button>
+
 
 </div>
 {% endblock %}

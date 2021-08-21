@@ -3,6 +3,12 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from .models import Question, Response
 from .forms import RegisterUserForm, LoginForm, NewQuestionForm, NewResponseForm, NewReplyForm
+from django.conf import settings
+
+def rootUrl():
+  if settings.DEBUG:
+    return "http://localhost:5000"
+  return "http://quoraclone.herokuapp.com"
 
 # Create your views here.
 
@@ -117,3 +123,8 @@ def replyPage(request):
             raise
 
     return redirect('index')
+
+############################################################################
+
+def registerPageNew(request):
+  return render(request,'register-new.html')
