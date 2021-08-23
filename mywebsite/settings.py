@@ -53,7 +53,6 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     )  
 }
-CORS_ALLOW_ALL_ORIGINS=True
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -66,6 +65,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+CORS_ALLOW_ALL_ORIGINS=True
 ROOT_URLCONF = 'mywebsite.urls'
 
 TEMPLATES = [
