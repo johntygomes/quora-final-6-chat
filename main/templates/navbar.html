@@ -28,8 +28,9 @@
   </div>
   <script>
   function logoutMain() {
-
-    fetch("http://localhost:5000/api/accounts/checkuser", {
+    //const localRootUrl = "http://localhost:5000";
+    const localRootUrl = "https://quora-final-three.herokuapp.com";
+    fetch(localRootUrl + "/api/accounts/checkuser", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -45,9 +46,9 @@
                     console.log("User signed out.");
                 });
                 auth2.disconnect();
-                window.location.href = "http://localhost:5000/logout"
+                window.location.href = localRootUrl + "/logout"
             } else {
-                window.location.href = "http://localhost:5000/logout"
+                window.location.href = localRootUrl + "/logout"
             }
         })
 
