@@ -65,7 +65,13 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-CORS_ALLOW_ALL_ORIGINS=True
+CORS_ALLOW_ALL_ORIGINS=False
+
+CORS_ALLOWED_ORIGINS = [
+    'https://quora-final-three.herokuapp.com',
+    'http://localhost:5000',
+    'http://localhost:8000',
+]
 ROOT_URLCONF = 'mywebsite.urls'
 
 TEMPLATES = [
