@@ -89,11 +89,22 @@ WSGI_APPLICATION = 'mywebsite.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-
+'''
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+'''
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'dekl03r1ts3633',
+        'USER': 'aizsyxzwvwlazg',
+        'PASSWORD': '129df1ed044ade2947340b69dabaf1646b527e0d4124e58f06c54767aada1902',
+        'HOST': 'ec2-35-153-91-18.compute-1.amazonaws.com',
+        'PORT': 5432
     }
 }
 
@@ -151,4 +162,6 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'pchackr7@gmail.com'
 EMAIL_HOST_PASSWORD = 'lordismyshepherd7.'
 #############################################
-rootUrl="http://localhost:5000"
+
+# rootUrl="http://localhost:5000"
+rootUrl="http://quora-final-three.herokuapp.com"
