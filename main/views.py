@@ -5,10 +5,6 @@ from .models import Question, Response
 from .forms import RegisterUserForm, LoginForm, NewQuestionForm, NewResponseForm, NewReplyForm
 from django.conf import settings
 
-def rootUrl():
-  if settings.DEBUG:
-    return "http://localhost:5000"
-  return "http://quoraclone.herokuapp.com"
 
 # Create your views here.
 
@@ -51,7 +47,7 @@ def loginPage(request):
 @login_required(login_url='register')
 def logoutPage(request):
     logout(request)
-    return redirect('login')
+    return redirect('login-new')
 
 @login_required(login_url='register')
 def newQuestionPage(request):
@@ -127,4 +123,18 @@ def replyPage(request):
 ############################################################################
 
 def registerPageNew(request):
-  return render(request,'register-new.html')
+  return render(request,'accounts/register-new.html')
+
+def loginPageNew(request):
+  return render(request,'accounts/login-new.html')
+
+def verifyemailsuccess(request):
+  return render(request,'accounts/verify-email-success.html')
+
+def verifyemailfailed(request):
+  return render(request,'accounts/verify-email-failed.html')
+
+def logoutMain(request):
+    logout(request)
+    return redirect('login-new')
+

@@ -1,3 +1,10 @@
+{% load static %}
+<meta name="google-signin-scope" content="profile email" />
+<meta
+  name="google-signin-client_id"
+  content="1071226708234-rpc0tvkput2jic3551nss6t3j0oru1j5.apps.googleusercontent.com"
+/>
+<script src="https://apis.google.com/js/platform.js"></script>
 <nav class="navbar">
   <div class="main-menu">
     <ul>
@@ -5,14 +12,46 @@
     </ul>
   </div>
   <div class="user-menu">
-    <ul>
+    <ul class="auth">
       {% if user.is_authenticated %}
       <li><a href="{% url 'new-question' %}">Ask question</a></li>
-      <li><a href="{% url 'logout' %}">Logout</a></li>
+      {% comment %} <li><a href="{% url 'logout' %}">Logout</a></li>" {% endcomment %}
+      <li><button id="logout-btn" onclick="logoutMain()">Logout</button></li>
       {% else %}
-      <li><a href="{% url 'login' %}">Login</a></li>
+      <li><a href="{% url 'login-new' %}">Login</a></li>
       <li><a href="{% url 'register-new' %}">Register</a></li>
       {% endif %}
     </ul>
   </div>
+  <div style="display:none;" class="fieldWrapper">
+    <div class="g-signin2 google-div" data-onsuccess="onSignIn" data-theme="dark"></div> 
+  </div>
+  <script>
+  function logoutMain() {
+
+    fetch("http://localhost:5000/api/accounts/checkuser", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Token ' + localStorage.getItem('token')
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data)
+            if (data.auth_type === "google") {
+                var auth2 = gapi.auth2.getAuthInstance();
+                auth2.signOut().then(function() {
+                    console.log("User signed out.");
+                });
+                auth2.disconnect();
+                window.location.href = "http://localhost:5000/logout"
+            } else {
+                window.location.href = "http://localhost:5000/logout"
+            }
+        })
+
+}
+  </script>
 </nav>
+

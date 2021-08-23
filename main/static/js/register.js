@@ -1,7 +1,9 @@
 const emailInput = document.getElementById("email");
+const csrftoken = getCookie('csrftoken');
+let anyError = false;
 emailInput.onkeyup = function() {
     if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(emailInput.value))) {
-        createCustomErrorBootstrapAlert("Email Address Entered Is Invalid")
+        createCustomErrorBootstrapAlert("Invalid Email")
         showCustomErrorBootstrapAlert()
     } else {
         hideGoogleAlert()
@@ -18,13 +20,21 @@ passwordInput.onkeyup = function() {
     }
 }
 
+const confirmPasswordInput = document.getElementById("confirmPassword");
+confirmPasswordInput.onkeyup = function() {
+    if (passwordInput.value !== confirmPasswordInput.value) {
+        createCustomErrorBootstrapAlert("Passwords Do Not Match")
+        showCustomErrorBootstrapAlert()
+    } else {
+        hideGoogleAlert()
+    }
+}
+
 function createUser(email, username, password, auth_type = "email") {
-    var x = document.getElementById("username").required;
     if (document.querySelector("#custom-error-div")) {
         document.querySelector("#custom-error-div").remove();
     }
     console.log("createUsernew default updated");
-    let url = "http://127.0.0.1:8000/register"
     const data = {
         email: email,
         username: username,
@@ -32,10 +42,11 @@ function createUser(email, username, password, auth_type = "email") {
         auth_type: auth_type,
     };
 
-    fetch(url, {
+    fetch(rootUrl + "/api/accounts/register", {
             method: 'POST', // or 'PUT'
             headers: {
                 'Content-Type': 'application/json',
+                'X-CSRFToken': csrftoken
             },
             body: JSON.stringify(data),
         }).then(response => response.json())
@@ -47,54 +58,13 @@ function createUser(email, username, password, auth_type = "email") {
             } else {
                 console.log("else part")
                 console.log(data)
-                document.getElementsByClassName('the-nav-link')[4].innerHTML = data.username
                 createCustomSuccessBootstrapAlert("A verification Email was sent. It Will Expire Within 5 Minutes.")
                 showCustomSuccessBootstrapAlert()
             }
         });
 }
 
-function onSignIn(googleUser) {
-    console.log("Google user Called");
-    if (document.querySelector("#custom-error-div")) {
-        document.querySelector("#custom-error-div").remove();
-    }
-    var profile = googleUser.getBasicProfile();
-    console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-    console.log('Name: ' + profile.getName());
-    console.log('Image URL: ' + profile.getImageUrl());
-    console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-    let url = "http://127.0.0.1:8000/register-login-google-user"
-    const data = {
-        email: profile.getEmail(),
-        auth_type: "google",
-    };
-    fetch(url, {
-            method: 'POST', // or 'PUT'
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        }).then(response => response.json())
-        .then(data => {
-            if (data.error) {
-                console.log(data.error);
-                createCustomErrorBootstrapAlert(data.error);
-                showCustomErrorBootstrapAlert();
-                var auth2 = gapi.auth2.getAuthInstance();
-                auth2.signOut().then(function() {
-                    console.log("User signed out.");
-                });
-                auth2.disconnect();
-                document.getElementsByClassName('the-nav-link')[4].innerHTML = "Anon"
-            } else {
-                console.log("else part")
-                console.log(data)
-                document.getElementsByClassName('the-nav-link')[4].innerHTML = data.username
-                localStorage.setItem('token', data.token)
-            }
-        });
-}
+
 
 function signOut() {
     var auth2 = gapi.auth2.getAuthInstance();
@@ -102,7 +72,6 @@ function signOut() {
         console.log("User signed out.");
     });
     auth2.disconnect();
-    document.getElementsByClassName('the-nav-link')[4].innerHTML = "Anon"
 }
 
 function hideGoogleAlert() {
@@ -159,4 +128,19 @@ function createCustomSuccessBootstrapAlert(message) {
 
 function showCustomSuccessBootstrapAlert() {
     document.querySelector('#custom-error-div').style.display = 'block';
+}
+
+function getCookie(name) {
+    if (!document.cookie) {
+        return null;
+    }
+
+    const xsrfCookies = document.cookie.split(';')
+        .map(c => c.trim())
+        .filter(c => c.startsWith(name + '='));
+
+    if (xsrfCookies.length === 0) {
+        return null;
+    }
+    return decodeURIComponent(xsrfCookies[0].split('=')[1]);
 }

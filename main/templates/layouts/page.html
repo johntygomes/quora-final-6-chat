@@ -3,14 +3,18 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
     <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}?{% now "U" %}"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
-    <script src="{% static 'js/main.js' %}?{% now "U" %}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="{% static 'js/main.js' %}"></script>
     <title></title>
   </head>
   <body>
-    <div class="container">
     {% include 'navbar.html' %}
+    <div class="container">
     {% block content %}
     {% endblock %}
     </div>
