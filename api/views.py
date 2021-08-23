@@ -109,7 +109,7 @@ def verifyemail(request):
   today = date.today()
   if today <= emailVerify.created_time.date():
     if current_time > timeTokenCreatedPlus5Minutes:
-        return redirect(settings.ROOTURL+'/accounts/verify-email-failure')
+        return redirect(settings.ROOTURL+'/accounts/verify-email-failed')
   user= emailVerify.user
   user.is_verified=True
   user.save()
