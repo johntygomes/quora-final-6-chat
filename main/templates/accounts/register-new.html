@@ -25,30 +25,38 @@
 <div class="fieldWrapper">
    <input type="text" name="username" id="username"  placeholder="Enter username" required>
 </div>
+    <div id="usernameErrorDiv">
+    </div>
 
 <div class="fieldWrapper">
    <input type="text" name="email" id="email"  placeholder="Enter email address">
 </div>
+    <div id="emailErrorDiv">
+    </div>
 
 <div class="fieldWrapper">
    <input type="password" name="password" id="password" placeholder="Enter password">
 </div>
+    <div id="passwordErrorDiv">
+    </div>
 
 
 <div class="fieldWrapper">
    <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirm password">
 </div>
+    <div id="confirmpasswordErrorDiv">
+    </div>
 
+    <div id="mainErrorDiv">
+    </div>
 <div class="fieldWrapper">
-   <button class="btn btn-primary" onclick="createUser(document.querySelector('#email').value,document.querySelector('#username').value,document.querySelector('#password').value)">Register</button>
+   <button id="register-btn" class="btn btn-primary" onclick="createUser(document.querySelector('#email').value,document.querySelector('#username').value,document.querySelector('#password').value)">Register</button>
 </div>
 
 <div class="fieldWrapper">
     <div class="g-signin2 google-div" data-onsuccess="onSignIn" data-theme="dark"></div> 
 </div>
 
-    <div id="mainErrorDiv">
-    </div>
 
 </div>  
  <script type="text/javascript" src="{% static 'js/globals.js' %}"></script>

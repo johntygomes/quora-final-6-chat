@@ -105,7 +105,7 @@ def verifyemail(request):
   print(token)
   emailVerify = EmailVerificationTokenModel.objects.get(token=token)
   current_time = getTime()
-  timeTokenCreatedPlus5Minutes = emailVerify.created_time_in_seconds + 60*5
+  timeTokenCreatedPlus5Minutes = emailVerify.created_time_in_seconds + 60*30
   today = date.today()
   if today <= emailVerify.created_time.date():
     if current_time > timeTokenCreatedPlus5Minutes:

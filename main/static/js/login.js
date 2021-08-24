@@ -41,59 +41,6 @@ function loginUser() {
                 window.location.href = rootUrl
             }
         });
-
-}
-
-
-
-function onSignIn(googleUser) {
-    console.log("Google user Called");
-    if (document.querySelector("#custom-error-div")) {
-        document.querySelector("#custom-error-div").remove();
-    }
-    var profile = googleUser.getBasicProfile();
-    console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-    console.log('Name: ' + profile.getName());
-    console.log('Image URL: ' + profile.getImageUrl());
-    console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-    let url = rootUrl + "/api/accounts/register-login-google-user"
-    const data = {
-        email: profile.getEmail(),
-        auth_type: "google",
-    };
-    fetch(url, {
-            method: 'POST', // or 'PUT'
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        }).then(response => response.json())
-        .then(data => {
-            if (data.error) {
-                console.log(data.error);
-                createCustomErrorBootstrapAlert(data.error);
-                showCustomErrorBootstrapAlert();
-                var auth2 = gapi.auth2.getAuthInstance();
-                auth2.signOut().then(function() {
-                    console.log("User signed out.");
-                });
-                auth2.disconnect();
-            } else {
-                console.log("else part")
-                console.log(data)
-                localStorage.setItem('token', data.token)
-                window.location.href = rootUrl
-            }
-        });
-}
-
-function signOut() {
-    var auth2 = gapi.auth2.getAuthInstance();
-    auth2.signOut().then(function() {
-        console.log("User signed out.");
-    });
-    auth2.disconnect();
-    document.getElementsByClassName('the-nav-link')[4].innerHTML = "Anon"
 }
 
 function hideGoogleAlert() {

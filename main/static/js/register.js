@@ -1,6 +1,21 @@
+const usernameInput = document.querySelector("#username");
 const emailInput = document.getElementById("email");
+const passwordInput = document.getElementById("password");
+const confirmPasswordInput = document.getElementById("confirmPassword");
 const csrftoken = getCookie('csrftoken');
-let anyError = false;
+document.querySelector("#register-btn").disabled = checkIfPasswordsMatch()
+
+usernameInput.onkeyup = function() {
+    if (!(/^[a-zA-Z0-9]+$/.test(usernameInput.value))) {
+        createCustomErrorBootstrapAlert("Invalid Username")
+        showCustomErrorBootstrapAlert()
+    } else {
+        hideGoogleAlert()
+    }
+
+}
+
+
 emailInput.onkeyup = function() {
     if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(emailInput.value))) {
         createCustomErrorBootstrapAlert("Invalid Email")
@@ -10,8 +25,8 @@ emailInput.onkeyup = function() {
     }
 }
 
-const passwordInput = document.getElementById("password");
 passwordInput.onkeyup = function() {
+    document.querySelector("#register-btn").disabled = checkIfPasswordsMatch();
     if (passwordInput.value.length < 8) {
         createCustomErrorBootstrapAlert("Password Cannot Have Less Than 8 Characters")
         showCustomErrorBootstrapAlert()
@@ -20,13 +35,24 @@ passwordInput.onkeyup = function() {
     }
 }
 
-const confirmPasswordInput = document.getElementById("confirmPassword");
 confirmPasswordInput.onkeyup = function() {
+    document.querySelector("#register-btn").disabled = checkIfPasswordsMatch();
     if (passwordInput.value !== confirmPasswordInput.value) {
         createCustomErrorBootstrapAlert("Passwords Do Not Match")
         showCustomErrorBootstrapAlert()
     } else {
         hideGoogleAlert()
+    }
+}
+
+function checkIfPasswordsMatch() {
+    if ((passwordInput.value.length <= 7) || (confirmPasswordInput.value.length <= 7)) {
+        return true;
+    }
+    if (passwordInput.value === confirmPasswordInput.value) {
+        return false
+    } else {
+        return true;
     }
 }
 
@@ -58,7 +84,7 @@ function createUser(email, username, password, auth_type = "email") {
             } else {
                 console.log("else part")
                 console.log(data)
-                createCustomSuccessBootstrapAlert("A verification Email was sent. It Will Expire Within 5 Minutes.")
+                createCustomSuccessBootstrapAlert("A verification Email was sent. It Will Expire Within 25 Minutes.")
                 showCustomSuccessBootstrapAlert()
             }
         });
