@@ -4,7 +4,8 @@
   name="google-signin-client_id"
   content="1071226708234-rpc0tvkput2jic3551nss6t3j0oru1j5.apps.googleusercontent.com"
 />
-<script src="https://apis.google.com/js/platform.js"></script>
+{% comment %} <script src="https://apis.google.com/js/platform.js"></script> {% endcomment %}
+<script src="https://apis.google.com/js/client:platform.js?onload=startApp"></script>
 <nav class="navbar">
   <div class="main-menu">
     <ul>
@@ -28,8 +29,8 @@
   </div>
   <script>
   function logoutMain() {
-    //const localRootUrl = "http://localhost:5000";
-    const localRootUrl = "https://quora-final-three.herokuapp.com";
+    let localRootUrl = "https://quora-final-three.herokuapp.com";
+    //let localRootUrl = "http://localhost:5000";
     fetch(localRootUrl + "/api/accounts/checkuser", {
             method: 'POST',
             headers: {
