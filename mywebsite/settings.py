@@ -169,5 +169,5 @@ EMAIL_HOST_USER = 'pchackr7@gmail.com'
 EMAIL_HOST_PASSWORD = 'lordismyshepherd7.'
 #############################################
 
-# ROOTURL="http://localhost:5000"
-ROOTURL="http://quora-final-three.herokuapp.com"
+ROOTURL="http://localhost:5000"
+# ROOTURL="http://quora-final-three.herokuapp.com"

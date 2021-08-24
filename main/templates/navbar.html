@@ -29,8 +29,8 @@
   </div>
   <script>
   function logoutMain() {
-    let localRootUrl = "https://quora-final-three.herokuapp.com";
-    //let localRootUrl = "http://localhost:5000";
+    //let localRootUrl = "https://quora-final-three.herokuapp.com";
+    let localRootUrl = "http://localhost:5000";
     fetch(localRootUrl + "/api/accounts/checkuser", {
             method: 'POST',
             headers: {
