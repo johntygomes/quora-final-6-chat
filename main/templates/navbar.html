@@ -7,6 +7,9 @@
 {% comment %} <script src="https://apis.google.com/js/platform.js"></script> {% endcomment %}
 <script src="https://apis.google.com/js/client:platform.js?onload=startApp"></script>
 <nav class="navbar">
+  <div id="hamburger">
+    <span style="font-size:30px;cursor:pointer;color:white;" onclick="openNav()">&#9776;</span>
+  </div>
   <div class="main-menu">
     <ul>
       <li><a href="{% url 'index' %}">Questions</a></li>
@@ -24,10 +27,24 @@
       {% endif %}
     </ul>
   </div>
+
   <div style="display:none;" class="fieldWrapper">
     <div class="g-signin2 google-div" data-onsuccess="onSignIn" data-theme="dark"></div> 
   </div>
-  <script>
+
+</nav>
+<div id="mySidenav" class="sidenav">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  {% if user.is_authenticated %}
+  <a href="{% url 'new-question' %}">Ask question</a>
+  <button id="logout-btn" onclick="logoutMain()">Logout</button>
+  {% else %}
+  <a href="{% url 'login-new' %}">Login</a>
+  <a href="{% url 'register-new' %}">Register</a>
+  {% endif %}
+</div>
+
+    <script>
   function logoutMain() {
     let localRootUrl = "https://quora-final-three.herokuapp.com";
     //let localRootUrl = "http://localhost:5000";
@@ -54,6 +71,12 @@
         })
 
 }
+function openNav() {
+  document.getElementById("mySidenav").style.width = "250px";
+}
+
+function closeNav() {
+  document.getElementById("mySidenav").style.width = "0";
+}
   </script>
-</nav>
 
