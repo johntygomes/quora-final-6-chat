@@ -27,7 +27,7 @@ class MailSender:
                             <h2>Press Button Below To Check Answer</h2>
                         </div>
                         <div style="text-align:center;margin-bottom:25px">
-                            <a href="https://quora-final.herokuapp.com/question/{str(question_object.id)}" style="font-size:15px;line-height:1.4;border-radius:3px;display:inline-block;outline:0;padding:15px 20px;text-align:center;text-decoration:none;background-color:#168de9;color:#fff;padding:15px 25px" target="_blank">
+                            <a href="{settings.ROOTURL}/question/{str(question_object.id)}" style="font-size:15px;line-height:1.4;border-radius:3px;display:inline-block;outline:0;padding:15px 20px;text-align:center;text-decoration:none;background-color:#168de9;color:#fff;padding:15px 25px" target="_blank">
                                 View Answer
                             </a>
                         </div>

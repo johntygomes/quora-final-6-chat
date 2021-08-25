@@ -1,10 +1,11 @@
 from django.shortcuts import redirect, render
 from django.contrib.auth.models import auth
+from main.models import Question
 from rest_framework import permissions
 from rest_framework import viewsets
 from rest_framework.response import Response
 from django.http import JsonResponse
-from .serializers import UserSerializer
+from .serializers import QuestionSerializer, UserSerializer
 from rest_framework.decorators import api_view,permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
@@ -264,7 +265,12 @@ def checkuser(request):
                      "auth_type": request.user.auth_type,
                      })
 
-
+@api_view(['GET'])
+@permission_classes([AllowAny,])
+def questionlist(request):
+    questiones = Question.objects.all()
+    serializer = QuestionSerializer(questiones, many=True)
+    return Response(serializer.data)
 
 
 '''

@@ -1,3 +1,4 @@
+from main.models import Question
 from .models import User
 from rest_framework import serializers
 from rest_framework.exceptions import AuthenticationFailed
@@ -23,6 +24,11 @@ class UserSerializer(serializers.ModelSerializer):
       user.set_password(password)
       user.save()
       return user
+
+class QuestionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Question
+        fields = ['id','author','title','body','created_at','updated_at']
 
 
 

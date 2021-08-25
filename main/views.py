@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from .models import Question, Response
 from .forms import RegisterUserForm, LoginForm, NewQuestionForm, NewResponseForm, NewReplyForm
 from django.conf import settings
-
+from utils.mail.mail_sender import MailSender
 
 # Create your views here.
 
@@ -86,6 +86,9 @@ def questionPage(request, id):
                 response = response_form.save(commit=False)
                 response.user = request.user
                 response.question = Question(id=id)
+                question_object = Question.objects.get(id=id)
+                mail = MailSender(question_object.author.email)
+                mail.sendUserAnswerNotification(question_object, response.user)
                 response.save()
                 return redirect('/question/'+str(id)+'#'+str(response.id))
         except Exception as e:
