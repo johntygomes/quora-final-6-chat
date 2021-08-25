@@ -12,6 +12,7 @@ emailInput.onkeyup = function() {
 }
 
 function loginUser() {
+    activateLoader()
     if (document.querySelector("#custom-error-div")) {
         document.querySelector("#custom-error-div").remove();
     }
@@ -32,12 +33,14 @@ function loginUser() {
         .then(data => {
             if (data.error) {
                 console.log(data.error);
+                deactivateLoader()
                 createCustomErrorBootstrapAlert(data.error);
                 showCustomErrorBootstrapAlert();
             } else {
                 console.log("else part")
                 console.log(data)
                 localStorage.setItem('token', data.token)
+                deactivateLoader();
                 window.location.href = rootUrl
             }
         });

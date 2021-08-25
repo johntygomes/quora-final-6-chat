@@ -57,6 +57,7 @@ function checkIfPasswordsMatch() {
 }
 
 function createUser(email, username, password, auth_type = "email") {
+    activateLoader();
     if (document.querySelector("#custom-error-div")) {
         document.querySelector("#custom-error-div").remove();
     }
@@ -79,11 +80,13 @@ function createUser(email, username, password, auth_type = "email") {
         .then(data => {
             if (data.error) {
                 console.log(data.error);
+                deactivateLoader()
                 createCustomErrorBootstrapAlert(data.error);
                 showCustomErrorBootstrapAlert();
             } else {
                 console.log("else part")
                 console.log(data)
+                deactivateLoader()
                 createCustomSuccessBootstrapAlert("A verification Email was sent. It Will Expire Within 25 Minutes.")
                 showCustomSuccessBootstrapAlert()
             }

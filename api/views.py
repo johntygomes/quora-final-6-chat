@@ -112,6 +112,8 @@ def verifyemail(request):
         print(current_time)
         print(timeTokenCreatedPlus5Minutes)
         return redirect(settings.ROOTURL+'/accounts/verify-email-failed')
+  print(current_time)
+  print(timeTokenCreatedPlus5Minutes)
   user= emailVerify.user
   user.is_verified=True
   user.save()
