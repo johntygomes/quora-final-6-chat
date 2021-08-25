@@ -1,6 +1,23 @@
  {% extends 'layouts/page.html' %} 
  {% block content %}
- <h2>SUCCESS</h2>
- <h3>Your Email Has Been Verified</h3>
- <a href="{% url 'login-new'%}">LOGIN</a>
+ <div class="container mt-3">
+  <div class="alert alert-success d-flex align-items-center" role="alert">
+    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+    <div>
+      SUCCESS
+    </div>
+  </div>
+  <div class="alert alert-success d-flex align-items-center" role="alert">
+    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+    <div>
+      YOUR EMAIL HAS BEEN VERIFIED
+    </div>
+  </div>
+  <div style="display:flex;justify-content:center;">
+    <h2> 
+      <a href="{% url 'login-new'%}">CLICK TO LOGIN</a>
+    </h2>
+  </div>
+
+</div>
  {% endblock %}
