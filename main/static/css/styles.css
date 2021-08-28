@@ -19,7 +19,7 @@ ul {
 }
 
 blockquote {
-    border-left: 6px solid lightgray;
+    border-left: 6px solid rgb(68, 10, 10);
     padding-left: 6px;
     margin-left: 15px;
 }

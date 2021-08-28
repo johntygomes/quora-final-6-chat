@@ -88,8 +88,10 @@ function closeNav() {
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
-const search = document.getElementById("search");
-const matchList = document.getElementById("match-list");
+if(document.getElementById("search")){
+  const search = document.getElementById("search");
+  const matchList = document.getElementById("match-list");
+}
 
 const searchStates = async (searchText) => {
   const res = await fetch(
