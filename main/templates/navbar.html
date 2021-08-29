@@ -4,11 +4,17 @@
   name="google-signin-client_id"
   content="1071226708234-rpc0tvkput2jic3551nss6t3j0oru1j5.apps.googleusercontent.com"
 />
-{% comment %} <script src="https://apis.google.com/js/platform.js"></script> {% endcomment %}
+{% comment %}
+<script src="https://apis.google.com/js/platform.js"></script>
+{% endcomment %}
 <script src="https://apis.google.com/js/client:platform.js?onload=startApp"></script>
 <nav class="navbar">
   <div id="hamburger">
-    <span style="font-size:30px;cursor:pointer;color:white;" onclick="openNav()">&#9776;</span>
+    <span
+      style="font-size: 30px; cursor: pointer; color: white"
+      onclick="openNav()"
+      >&#9776;</span
+    >
   </div>
   <div class="main-menu">
     <ul>
@@ -24,7 +30,9 @@
       </li>
       {% if user.is_authenticated %}
       <li><a href="{% url 'new-question' %}">Ask question</a></li>
-      {% comment %} <li><a href="{% url 'logout' %}">Logout</a></li>" {% endcomment %}
+      {% comment %}
+      <li><a href="{% url 'logout' %}">Logout</a></li>
+      " {% endcomment %}
       <li><button id="logout-btn" onclick="logoutMain()">Logout</button></li>
       {% else %}
       <li><a href="{% url 'login-new' %}">Login</a></li>
@@ -33,10 +41,13 @@
     </ul>
   </div>
 
-  <div style="display:none;" class="fieldWrapper">
-    <div class="g-signin2 google-div" data-onsuccess="onSignIn" data-theme="dark"></div> 
+  <div style="display: none" class="fieldWrapper">
+    <div
+      class="g-signin2 google-div"
+      data-onsuccess="onSignIn"
+      data-theme="dark"
+    ></div>
   </div>
-
 </nav>
 <div id="match-list"></div>
 <div id="mySidenav" class="sidenav">
@@ -56,87 +67,82 @@
   //const localRootUrl = "http://localhost:5000";
   function logoutMain() {
     fetch(localRootUrl + "/api/accounts/checkuser", {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Token ' + localStorage.getItem('token')
-            },
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data)
-            if (data.auth_type === "google") {
-                var auth2 = gapi.auth2.getAuthInstance();
-                auth2.signOut().then(function() {
-                    console.log("User signed out.");
-                });
-                auth2.disconnect();
-                window.location.href = localRootUrl + "/logout"
-            } else {
-                window.location.href = localRootUrl + "/logout"
-            }
-        })
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Token " + localStorage.getItem("token"),
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        if (data.auth_type === "google") {
+          var auth2 = gapi.auth2.getAuthInstance();
+          auth2.signOut().then(function () {
+            console.log("User signed out.");
+          });
+          auth2.disconnect();
+          window.location.href = localRootUrl + "/logout";
+        } else {
+          window.location.href = localRootUrl + "/logout";
+        }
+      });
+  }
+  function openNav() {
+    document.getElementById("mySidenav").style.width = "250px";
+  }
 
-}
-function openNav() {
-  document.getElementById("mySidenav").style.width = "250px";
-}
+  function closeNav() {
+    document.getElementById("mySidenav").style.width = "0";
+  }
 
-function closeNav() {
-  document.getElementById("mySidenav").style.width = "0";
-}
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-if(document.getElementById("search")){
+  ////////////////////////////////////////////////////////////////////////////////////////////////
+  if (document.getElementById("search")) {
     const search = document.getElementById("search");
     const matchList = document.getElementById("match-list");
 
+    const searchStates = async (searchText) => {
+      const res = await fetch(
+        localRootUrl + "/api/question-list/"
+        // "http://127.0.0.1:8000/api/question-list/"
+      );
+      const states = await res.json();
 
-  const searchStates = async (searchText) => {
-    const res = await fetch(
-      localRootUrl+"/api/question-list/"
-      // "http://127.0.0.1:8000/api/question-list/"
-    );
-    const states = await res.json();
+      // Get Matches to current text inputData
+      let matches = states.filter((state) => {
+        // const regex = new RegExp(`^${searchText}`, "gi");
+        // return state.title.match(regex) || state.body.match(regex);
+        if (state.title.toLowerCase().includes(searchText.toLowerCase())) {
+          return state.title;
+        }
+      });
 
-    // Get Matches to current text inputData
-    let matches = states.filter((state) => {
-      // const regex = new RegExp(`^${searchText}`, "gi");
-      // return state.title.match(regex) || state.body.match(regex);
-      if (state.title.toLowerCase().includes(searchText.toLowerCase())) {
-        return state.title;
+      if (searchText.length === 0) {
+        matches = [];
+        matchList.innerHTML = "";
       }
-    });
 
-    if (searchText.length === 0) {
-      matches = [];
-      matchList.innerHTML = "";
-    }
+      outputHtml(matches);
+      // console.log(matches);
+    };
 
-    outputHtml(matches);
-    // console.log(matches);
-  };
-
-  //Show Results In Html
-  const outputHtml = (matches) => {
-    if (matches.length > 0) {
-      const html = matches
-        .map(
-          (match) => `
+    //Show Results In Html
+    const outputHtml = (matches) => {
+      if (matches.length > 0) {
+        const html = matches
+          .map(
+            (match) => `
         <div class = "card card-body mb-1">
           <h4><a href="${localRootUrl}/question/${match.id}" target="_blank">${match.title}</a></h4>
-          <small>${match.body}</small>
         </div>
       `
-        )
-        .join("");
-      console.log(html);
-      matchList.innerHTML = html;
-    }
-  };
+          )
+          .join("");
+        console.log(html);
+        matchList.innerHTML = html;
+      }
+    };
 
-  search.addEventListener("input", () => searchStates(search.value));
-}
+    search.addEventListener("input", () => searchStates(search.value));
+  }
 </script>
-

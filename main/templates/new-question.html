@@ -1,24 +1,19 @@
 {% extends 'layouts/page.html' %}
+{% load static %}
 
 {% block content %}
 <div class="page new-question-page">
 <h1 class="title">New question</h1>
-
-
-<form method="POST" action="" class="new-question-form">
-  {% csrf_token %}
+{% csrf_token %}
 <div class="fieldWrapper">
-  <label for="{{form.title.id_for_label}}">Title:</label>
-  {{form.title}}
-  <span class="error">{{form.title.errors}}</span>
+  <input type="text" id="id_title" class="form-control" placeholder="Title" name="title"/>
 </div>
-<div class="fieldWrapper">
-  <label for="{{form.body.id_for_label}}">Body:</label>
-  {{form.body}}
-  <span class="error">{{form.body.errors}}</span>
-</div>
-<input type="submit" value="Submit" class="submit-button"/>
-</form>
+<textarea id="id_body_main" placeholder="textarea"></textarea>
+  <div id="mainErrorDiv">
+  </div>
+<button onclick="addNewQuestion()" id="submit-btn" class="btn btn-success mt-3"/>SUBMIT</button>
 
 </div>
+<script type="text/javascript" src="{% static 'js/globals.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/handle-new-question.js' %}"></script>
 {% endblock %}

@@ -1,55 +1,63 @@
-abc = 'def'
-console.log(abc)
-const emailInput = document.getElementById("email");
-const csrftoken = getCookie('csrftoken');
-emailInput.onkeyup = function() {
-    if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(emailInput.value))) {
-        createCustomErrorBootstrapAlert("Email Address Entered Is Invalid")
-        showCustomErrorBootstrapAlert()
-    } else {
-        hideGoogleAlert()
-    }
+tinymce.init({
+    selector: 'textarea',
+    plugins: 'a11ychecker advcode casechange export formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker',
+    toolbar: 'a11ycheck addcomment showcomments casechange checklist code export formatpainter pageembed permanentpen table',
+    toolbar_mode: 'floating',
+    tinycomments_mode: 'embedded',
+    tinycomments_author: 'Author name',
+});
+checkIfAnyErrors()
+document.querySelector("#submit-btn").disabled = checkIfAnyErrors()
+
+document.querySelector("#id_title").onkeyup = function() {
+    document.querySelector("#submit-btn").disabled = checkIfAnyErrors()
+}
+document.querySelector('#id_title').onkeyup = function() {
+    document.querySelector("#submit-btn").disabled = checkIfAnyErrors()
 }
 
-function loginUser() {
-    activateLoader()
-    if (document.querySelector("#custom-error-div")) {
-        document.querySelector("#custom-error-div").remove();
+function checkIfAnyErrors() {
+    if (document.querySelector("#id_title").value === "") {
+        return true;
     }
-    console.log("login called");
-    let url = rootUrl + "/api/accounts/login"
-    const data = {
-        email: document.querySelector("#email").value,
-        password: document.querySelector("#password").value
-    };
+    return false;
+}
 
-    fetch(url, {
-            method: 'POST', // or 'PUT'
+
+
+function addNewQuestion() {
+    activateLoader()
+    const title = document.querySelector("#id_title").value;
+    const body = tinymce.get('id_body_main').getBody().innerHTML
+    fetch(rootUrl + "/api/add-new-question/", {
+            method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
+                'Content-Type': "application/json",
+                Authorization: "Token " + localStorage.getItem("token"),
             },
-            body: JSON.stringify(data),
-        }).then(response => response.json())
+            body: JSON.stringify({
+                title: title,
+                body: body,
+            })
+        })
+        .then(response => response.json())
         .then(data => {
             if (data.error) {
-                console.log(data.error);
                 deactivateLoader()
                 createCustomErrorBootstrapAlert(data.error);
                 showCustomErrorBootstrapAlert();
             } else {
-                console.log("else part")
-                console.log(data)
-                localStorage.setItem('token', data.token)
-                deactivateLoader();
-                window.location.href = rootUrl
+                deactivateLoader()
+                window.location.href = "/"
             }
-        });
+        })
 }
 
+
+////////////////////////////////////////////////////////////
 function hideGoogleAlert() {
     if (document.querySelector("#custom-error-div")) {
         document.querySelector("#custom-error-div").remove();
-
     }
 }
 
@@ -72,20 +80,4 @@ function createCustomErrorBootstrapAlert(message) {
 
 function showCustomErrorBootstrapAlert() {
     document.querySelector('#custom-error-div').style.display = 'block';
-}
-
-
-function getCookie(name) {
-    if (!document.cookie) {
-        return null;
-    }
-
-    const xsrfCookies = document.cookie.split(';')
-        .map(c => c.trim())
-        .filter(c => c.startsWith(name + '='));
-
-    if (xsrfCookies.length === 0) {
-        return null;
-    }
-    return decodeURIComponent(xsrfCookies[0].split('=')[1]);
 }

@@ -1,10 +1,29 @@
 {% extends 'layouts/page.html' %}
+{% load static %}
 
 {% block content %}
+ <script type="text/javascript" src="{% static 'js/globals.js' %}"></script>
+  <script>
+    fetch(rootUrl + "/api/get-question-data/", {
+            method: 'POST',
+            headers: {
+              'Content-Type': "application/json",
+            },
+            body: JSON.stringify({
+                id:{{question.id}}
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data)
+            document.querySelector("#embed-question-body").innerHTML = data.body;
+        })  
+  </script>
 <div class="page question-page">
 
 <h2 class="question-title">{{question.title}}</h2>
-<p class="question-body">{{question.body}}</p>
+<div id="embed-question-body" class="container">
+</div>
 <span class="question-author">author : {{question.author.username}}</span>
 
 <div class="responses-container">

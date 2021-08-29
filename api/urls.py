@@ -1,4 +1,4 @@
-from .views import snippet_list,register,checkuser,registerlogingoogleuser,login,verifyemail,checkgoogleuserexists,registergoogleuser,logingoogleuser,questionlist
+from .views import snippet_list,register,checkuser,registerlogingoogleuser,login,verifyemail,checkgoogleuserexists,registergoogleuser,logingoogleuser,questionlist,addnewquestion,getquestiondata
 from main.views import logoutMain
 from django.urls import path
 from rest_framework.authtoken.views import obtain_auth_token
@@ -15,4 +15,6 @@ urlpatterns = [
     path('verify-email', verifyemail,name='verify-email'),
     path('logout-main', logoutMain, name="logout-main"),
     path('question-list/', questionlist, name='question-list'),
+    path('add-new-question/', addnewquestion, name='add-new-question'),
+    path('get-question-data/', getquestiondata, name='get-question-data'),
 ]

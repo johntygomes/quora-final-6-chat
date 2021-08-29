@@ -272,6 +272,29 @@ def questionlist(request):
     serializer = QuestionSerializer(questiones, many=True)
     return Response(serializer.data)
 
+@api_view(['GET', 'POST'])
+@permission_classes([IsAuthenticated,])
+def addnewquestion(request):
+    print(request.user)
+    print(request.data["title"])
+    print(request.data["body"])
+    if request.data["title"] == "" or request.data["body"]=='<p><br data-mce-bogus="1"></p>':
+      return JsonResponse({"error":"Title Or Body Cannot Be Empty"})
+    else:
+      question = Question()
+      question.author = request.user
+      question.title = request.data["title"]
+      question.body = request.data["body"]
+      question.save()
+      return JsonResponse({"success":"Question Added"})
+
+@api_view(['GET', 'POST'])
+@permission_classes([AllowAny,])
+def getquestiondata(request):
+  question = Question.objects.get(id=request.data["id"])
+  return JsonResponse({"body":question.body})
+    
+
 
 '''
 {
