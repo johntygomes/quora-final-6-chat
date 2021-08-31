@@ -325,6 +325,7 @@ blockquote {
 @media screen and (max-width: 768px) {
     .auth li:nth-child(2),
     .auth li:nth-child(3),
+    .auth li:nth-child(4),
     .main-menu {
         display: none;
     }

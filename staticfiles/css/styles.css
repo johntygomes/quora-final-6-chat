@@ -289,6 +289,7 @@ blockquote {
     position: absolute;
     top: 40%;
     left: 45%;
+    z-index: 10;
 }
 
 
@@ -324,6 +325,7 @@ blockquote {
 @media screen and (max-width: 768px) {
     .auth li:nth-child(2),
     .auth li:nth-child(3),
+    .auth li:nth-child(4),
     .main-menu {
         display: none;
     }
