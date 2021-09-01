@@ -18,6 +18,10 @@ function updateLikeCount(questionid, count) {
 
 
 function addlike(questionid, userid) {
+    if (userid === 'None') {
+        alert('You Need To Login To Like')
+        return
+    }
     fetch(rootUrl + "/api/add-like/", {
             method: 'POST',
             headers: {

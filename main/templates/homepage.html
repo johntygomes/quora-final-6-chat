@@ -23,12 +23,21 @@
     <img src="{% static 'images/icons/heart.svg' %}" alt="heart"/>
   </span>
   {% else %}
-  <span style="display:none" id="span-like-{{ question.id }}" onclick="removelike({{question.id}}, {{ request.user.id }})">
-    <img src="{% static 'images/icons/heartactive.svg' %}" alt="heart"/>
-  </span>
-  <span id="span-unlike-{{ question.id }}" onclick="addlike({{question.id}}, {{ request.user.id }})">
-    <img src="{% static 'images/icons/heart.svg' %}" alt="heart"/>
-  </span>
+      {% if user.is_authenticated  %}
+          <span style="display:none" id="span-like-{{ question.id }}" onclick="removelike({{question.id}}, {{ request.user.id }})">
+            <img src="{% static 'images/icons/heartactive.svg' %}" alt="heart"/>
+          </span>
+          <span id="span-unlike-{{ question.id }}" onclick="addlike({{question.id}}, {{ request.user.id }})">
+            <img src="{% static 'images/icons/heart.svg' %}" alt="heart"/>
+          </span>
+      {% else %}
+          <span style="display:none" id="span-like-{{ question.id }}" onclick="removelike({{question.id}}, 'None')">
+            <img src="{% static 'images/icons/heartactive.svg' %}" alt="heart"/>
+          </span>
+          <span id="span-unlike-{{ question.id }}" onclick="addlike({{question.id}}, 'None')">
+            <img src="{% static 'images/icons/heart.svg' %}" alt="heart"/>
+          </span>
+      {% endif %}
   {% endif %}
   <span id="span-likecount-{{ question.id }}">{{ question.count }}</span>
 </div>

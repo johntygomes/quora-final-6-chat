@@ -13,7 +13,7 @@ function toggleLike(questionid) {
 
 function updateLikeCount(questionid, count) {
     countquery = "#span-likecount-" + questionid
-    document.querySelector(countquery).innerText = count
+    document.querySelector(countquery).innerHTML = count
 }
 
 
@@ -32,7 +32,6 @@ function addlike(questionid, userid) {
         .then(response => response.json())
         .then(data => {
             if (data.success === "added") {
-                console.log(data.count)
                 toggleLike(questionid)
                 updateLikeCount(questionid, data.count)
             } else if (data.error) {
