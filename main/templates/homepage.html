@@ -12,10 +12,28 @@
       {{question.title}}
     </p>
     <p class="question-list-item-author">
-      by {{question.author.username}}
+      by {{question.authorname}}
     </p>
   </a>
+  {% if question.doeslike %}
+  <span id="span-like-{{ question.id }}" onclick="removelike({{question.id}}, {{ request.user.id }})">
+    <img src="{% static 'images/icons/heartactive.svg' %}" alt="heart"/>
+  </span>
+  <span style="display:none" id="span-unlike-{{ question.id }}" onclick="addlike({{question.id}}, {{ request.user.id }})">
+    <img src="{% static 'images/icons/heart.svg' %}" alt="heart"/>
+  </span>
+  {% else %}
+  <span style="display:none" id="span-like-{{ question.id }}" onclick="removelike({{question.id}}, {{ request.user.id }})">
+    <img src="{% static 'images/icons/heartactive.svg' %}" alt="heart"/>
+  </span>
+  <span id="span-unlike-{{ question.id }}" onclick="addlike({{question.id}}, {{ request.user.id }})">
+    <img src="{% static 'images/icons/heart.svg' %}" alt="heart"/>
+  </span>
+  {% endif %}
+  <span id="span-likecount-{{ question.id }}">{{ question.count }}</span>
 </div>
 {% endfor %}
 </div>
+<script type="text/javascript" src="{% static 'js/globals.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/homepage.js' %}"></script>
 {% endblock %}

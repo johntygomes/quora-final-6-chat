@@ -5,6 +5,7 @@ from .models import Question, Response
 from .forms import RegisterUserForm, LoginForm, NewQuestionForm, NewResponseForm, NewReplyForm
 from django.conf import settings
 from utils.mail.mail_sender import MailSender
+import json
 
 # Create your views here.
 
@@ -70,8 +71,26 @@ def newQuestionPage(request):
 
 def homePage(request):
     questions = Question.objects.all().order_by('-created_at')
+    mainQuestions = []
+    for q in questions:
+      if q.likes.filter(id=request.user.id).exists():
+        mainQuestions.append({
+          "id":q.id,
+          "title":q.title,
+          "authorname":q.author.username,
+          "doeslike": True,
+          "count":q.likes.filter().count() 
+        })
+      else:
+        mainQuestions.append({
+          "id":q.id,
+          "title":q.title,
+          "authorname":q.author.username,
+          "doeslike": False,
+          "count":q.likes.filter().count() 
+        })
     context = {
-        'questions': questions
+        'questions': mainQuestions,
     }
     return render(request, 'homepage.html', context)
 

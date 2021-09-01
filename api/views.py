@@ -293,7 +293,26 @@ def addnewquestion(request):
 def getquestiondata(request):
   question = Question.objects.get(id=request.data["id"])
   return JsonResponse({"body":question.body})
-    
+###############################
+@api_view(['GET', 'POST'])
+@permission_classes([IsAuthenticated,])
+def addlike(request):
+  user=User.objects.get(id=request.data["userid"])
+  question=Question.objects.get(id=request.data["questionid"])
+  question.likes.add(user)
+  count = question.likes.filter().count()
+  question.save()
+  return JsonResponse({"success":"added","count":count})
+
+@api_view(['GET', 'POST'])
+@permission_classes([IsAuthenticated,])
+def removelike(request):
+  user=User.objects.get(id=request.data["userid"])
+  question=Question.objects.get(id=request.data["questionid"])
+  question.likes.remove(user)
+  count = question.likes.filter().count()
+  question.save()
+  return JsonResponse({"success":"removed","count":count})
 
 
 '''
@@ -309,4 +328,6 @@ def getquestiondata(request):
 "password":"12345678",
 "auth_type":"google"
 }
+Like.objects.filter(user=User.objects.get(id=1),question=Question.objects.get(id=1))
+
 '''

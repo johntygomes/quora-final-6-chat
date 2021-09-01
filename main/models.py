@@ -9,6 +9,7 @@ class Question(models.Model):
     body = models.TextField(null=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    likes = models.ManyToManyField(User, related_name="question_likes")
 
     def __str__(self):
         return self.title
@@ -29,3 +30,4 @@ class Response(models.Model):
 
     def get_responses(self):
         return Response.objects.filter(parent=self)
+
