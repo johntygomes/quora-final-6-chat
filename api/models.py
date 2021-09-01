@@ -62,7 +62,6 @@ class EmailVerificationTokenModel(models.Model):
   user = models.ForeignKey(User,on_delete=models.CASCADE,related_name="user")
   token = models.UUIDField()
   created_time = models.DateTimeField(_('time_created'), auto_now_add=True)
-  created_time_in_seconds = models.IntegerField(_('created_time_in_seconds'))
 
 class GoogleUserPasswordModel(models.Model):
   user = models.ForeignKey(User,on_delete=models.CASCADE,related_name="googleuser")

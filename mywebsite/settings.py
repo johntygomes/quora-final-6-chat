@@ -172,3 +172,16 @@ EMAIL_HOST_PASSWORD = 'jesuslovesme1234.'
 
 # ROOTURL="http://localhost:5000"
 ROOTURL="https://quora-final-three.herokuapp.com"
+
+
+
+
+
+
+
+
+
+
+
+###################################################
+#https://stackoverflow.com/questions/15307623/cant-compare-naive-and-aware-datetime-now-challenge-datetime-end

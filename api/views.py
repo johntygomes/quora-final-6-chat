@@ -41,15 +41,7 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
 
 import pytz
-
-def getTime():
-    t = time.localtime()
-    current_time = time.strftime("%H:%M:%S", t)
-    hour=int(current_time[0]+current_time[1])
-    minute=int(current_time[3]+current_time[4])
-    second=int(current_time[6]+current_time[7])
-    start_time_in_seconds=(hour*60*60)*(minute*60)+second
-    return start_time_in_seconds
+utc=pytz.UTC
 
 
 @api_view(['POST',])
@@ -73,12 +65,10 @@ def register(request):
           emailVerify  = EmailVerificationTokenModel()
           emailVerify.user = user
           emailVerify.token = rand_token
-          emailVerify.created_time = datetime.now()
-          emailVerify.created_time_in_seconds = getTime()
+          emailVerify.created_time = datetime.utcnow()
           current_site = get_current_site(request).domain
           relativeLink = reverse('verify-email')
           absUrl = 'http://'+current_site+relativeLink+'?token='+str(rand_token)
-          print(absUrl)
           emailVerifyUtility = EmailVerificationMailSender(user)
           emailVerifyUtility.sendUserEmailVerifyMessage(absUrl)
           emailVerify.save()
@@ -105,16 +95,10 @@ def verifyemail(request):
   token = request.GET.get('token')
   print(token)
   emailVerify = EmailVerificationTokenModel.objects.get(token=token)
-  current_time = getTime()
-  timeTokenCreatedPlus5Minutes = emailVerify.created_time_in_seconds + 60*30
-  today = date.today()
-  if today <= emailVerify.created_time.date():
-    if current_time > timeTokenCreatedPlus5Minutes:
-        print(current_time)
-        print(timeTokenCreatedPlus5Minutes)
-        return redirect(settings.ROOTURL+'/accounts/verify-email-failed')
-  print(current_time)
-  print(timeTokenCreatedPlus5Minutes)
+  current_time = utc.localize(datetime.utcnow())
+  timeTokenCreatedPlus30Minutes = emailVerify.created_time + timedelta(minutes=30)
+  if current_time > timeTokenCreatedPlus30Minutes:
+    return redirect(settings.ROOTURL+'/accounts/verify-email-failed')
   user= emailVerify.user
   user.is_verified=True
   user.save()
