@@ -11,7 +11,7 @@ API_VERSION = 'v1'
 SCOPES = ['https://mail.google.com/']
 ################################################################
 class MailSender:
-    mail_sender     = "pchackr7@gmail.com"
+    mail_sender     = "instanalysis7@gmail.com"
     def __init__(self,mail_receiver):
         self.mail_receiver       = mail_receiver
     def sendUserAnswerNotification(self,question_object,response_object):
@@ -46,7 +46,7 @@ class MailSender:
             print("error",e)
 
 class EmailVerificationMailSender:
-    mail_sender     = "pchackr7@gmail.com"
+    mail_sender     = "instanalysis7@gmail.com"
     def __init__(self,mail_receiver):
         self.mail_receiver       = mail_receiver
     def sendUserEmailVerifyMessage(self,absUrl):
