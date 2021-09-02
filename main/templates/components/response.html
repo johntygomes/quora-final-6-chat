@@ -1,10 +1,42 @@
-<blockquote id="{{response.id}}">
-  <p class="response-body">{{response.body}}</p>
-  <small class="response-author">by {{response.user.username}}</small>
+{% load static %}
 
+
+<blockquote id="{{response.id}}">
+  <p id="p-{{response.id}}" class="response-body"></p>
+  <small class="response-author">by {{response.authorname}}</small>
+<!--
   {% if user.is_authenticated %}
     <button class="reply-button" onclick="handleReplyButton({{response.id}})">Reply</button>
   {% endif %}
+-->
+
+
+  {% if response.doeslike %}
+  <span id="span-like-{{ response.id }}" onclick="removelike({{response.id}}, {{ request.user.id }})">
+    <img src="{% static 'images/icons/heartactive.svg' %}" alt="heart"/>
+  </span>
+  <span style="display:none" id="span-unlike-{{ response.id }}" onclick="addlike({{response.id}}, {{ request.user.id }})">
+    <img src="{% static 'images/icons/heart.svg' %}" alt="heart"/>
+  </span>
+  {% else %}
+      {% if user.is_authenticated  %}
+          <span style="display:none" id="span-like-{{ response.id }}" onclick="removelike({{response.id}}, {{ request.user.id }})">
+            <img src="{% static 'images/icons/heartactive.svg' %}" alt="heart"/>
+          </span>
+          <span id="span-unlike-{{ response.id }}" onclick="addlike({{response.id}}, {{ request.user.id }})">
+            <img src="{% static 'images/icons/heart.svg' %}" alt="heart"/>
+          </span>
+      {% else %}
+          <span style="display:none" id="span-like-{{ response.id }}" onclick="removelike({{response.id}}, 'None')">
+            <img src="{% static 'images/icons/heartactive.svg' %}" alt="heart"/>
+          </span>
+          <span id="span-unlike-{{ response.id }}" onclick="addlike({{response.id}}, 'None')">
+            <img src="{% static 'images/icons/heart.svg' %}" alt="heart"/>
+          </span>
+      {% endif %}
+  {% endif %}
+  <span id="span-likecount-{{ response.id }}">{{ response.count }}</span>
+
 
   <blockquote id="reply-form-container-{{response.id}}" class="reply-form-container">
     <form method="POST" action="/reply" class="reply-form">
@@ -17,8 +49,11 @@
     </form>
   </blockquote>
 
+
   {% for children in response.get_responses %}
   {% include 'components/response.html' with response=children %}
   {% endfor %}
+
+<script type="text/javascript" src="{% static 'js/response.js' %}"></script>
 
 </blockquote>

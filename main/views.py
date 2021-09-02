@@ -115,8 +115,30 @@ def questionPage(request, id):
             raise
 
     question = Question.objects.get(id=id)
+    theResponses=[]
+    for r in question.get_responses():
+      if r.likes.filter(id=request.user.id).exists():
+        theResponses.append({
+          "id":r.id,
+          "body":r.body,
+          "authorname":r.user.username,
+          "doeslike": True,
+          "count":r.likes.filter().count() 
+        })
+      else:
+        theResponses.append({
+          "id":r.id,
+          "body":r.body,
+          "authorname":r.user.username,
+          "doeslike": False,
+          "count":r.likes.filter().count() 
+        })
+      
+    theResponses.sort(key=lambda x: x["count"], reverse=True)
+    print(theResponses)
     context = {
         'question': question,
+        'theResponses':theResponses,
         'response_form': response_form,
         'reply_form': reply_form,
     }

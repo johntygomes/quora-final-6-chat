@@ -4,6 +4,7 @@
 {% block content %}
  <script type="text/javascript" src="{% static 'js/globals.js' %}"></script>
   <script>
+
     fetch(rootUrl + "/api/get-question-data/", {
             method: 'POST',
             headers: {
@@ -15,9 +16,9 @@
         })
         .then(response => response.json())
         .then(data => {
-            console.log(data)
             document.querySelector("#embed-question-body").innerHTML = data.body;
-        })  
+        }) 
+
   </script>
 <div class="page question-page">
 
@@ -32,22 +33,48 @@
   {% if not question.responses.all %}
     <p class="no-responses-text">No responses yet</p>
   {% else %}
-    {% for response in question.get_responses %}
+  <div id="responses-container-updated">
+  </div>
+    {% for response in theResponses %}
       {% include 'components/response.html' with response=response %}
     {% endfor %}
   {% endif %}
 </div>
+<script>
+    fetch(rootUrl + "/api/get-response-data/", {
+            method: 'POST',
+            headers: {
+              'Content-Type': "application/json",
+            },
+            body: JSON.stringify({
+                id:{{question.id}}
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            for(let i = 0; i < data.body.length; i++) {
+              let query = "p-" + data.body[i].id 
+              let p = document.getElementById(query);
+              p.innerHTML = data.body[i].body
+            }
+        })  
+</script>
 
 {% if user.is_authenticated %}
-<form method="POST" action="" class="response-form">
+
 {% csrf_token %}
 <div class="fieldWrapper">
-  <label for="{{response_form.body.id_for_label}}">Your answer:</label>
-  {{response_form.body}}
+  <label>Your answer:</label>
+  <input type="hidden" id="questionid" value="{{ question.id}}"/>
+  <textarea id="id_body_main" placeholder="textarea"></textarea>
+  <div id="mainErrorDiv">
+  </div>
+  <button onclick="addNewResponse()" id="submit-btn" class="btn btn-success mt-3"/>SUBMIT</button>
 </div>
-<input type="submit" value="Send" class="submit-button"/>
-</form>
+
+
 {% endif %}
 
 </div>
+<script type="text/javascript" src="{% static 'js/handle-new-answer.js' %}"></script>
 {% endblock %}

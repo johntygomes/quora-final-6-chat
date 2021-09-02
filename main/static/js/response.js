@@ -1,43 +1,43 @@
-function toggleLike(questionid) {
-    query = "#span-like-" + questionid
+function toggleLike(responseid) {
+    query = "#span-like-" + responseid
     if (document.querySelector(query).style.display === "none") {
         document.querySelector(query).style.display = "inline-block"
-        query = "#span-unlike-" + questionid
+        query = "#span-unlike-" + responseid
         document.querySelector(query).style.display = "none"
         return
     }
     document.querySelector(query).style.display = "none"
-    query = "#span-unlike-" + questionid
+    query = "#span-unlike-" + responseid
     document.querySelector(query).style.display = "inline-block"
 }
 
-function updateLikeCount(questionid, count) {
-    countquery = "#span-likecount-" + questionid
+function updateLikeCount(responseid, count) {
+    countquery = "#span-likecount-" + responseid
     document.querySelector(countquery).innerHTML = count
 }
 
 
-function addlike(questionid, userid) {
+function addlike(responseid, userid) {
     if (userid === 'None') {
         alert('You Need To Login To Like')
         return
     }
-    fetch(rootUrl + "/api/add-like/", {
+    fetch(rootUrl + "/api/add-response-like/", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: 'Token ' + localStorage.getItem('token')
             },
             body: JSON.stringify({
-                questionid: questionid,
+                responseid: responseid,
                 userid: userid,
             })
         })
         .then(response => response.json())
         .then(data => {
             if (data.success === "added") {
-                toggleLike(questionid)
-                updateLikeCount(questionid, data.count)
+                toggleLike(responseid)
+                updateLikeCount(responseid, data.count)
             } else if (data.error) {
                 alert(data.error)
             } else {
@@ -46,23 +46,23 @@ function addlike(questionid, userid) {
         })
 }
 
-function removelike(questionid, userid) {
-    fetch(rootUrl + "/api/remove-like/", {
+function removelike(responseid, userid) {
+    fetch(rootUrl + "/api/remove-response-like/", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: 'Token ' + localStorage.getItem('token')
             },
             body: JSON.stringify({
-                questionid: questionid,
+                responseid: responseid,
                 userid: userid,
             })
         })
         .then(response => response.json())
         .then(data => {
             if (data.success === "removed") {
-                toggleLike(questionid)
-                updateLikeCount(questionid, data.count)
+                toggleLike(responseid)
+                updateLikeCount(responseid, data.count)
             } else if (data.error) {
                 alert(data.error)
             } else {

@@ -24,6 +24,7 @@ class Response(models.Model):
     body = models.TextField(null=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    likes = models.ManyToManyField(User, related_name="response_likes")
 
     def __str__(self):
         return self.body

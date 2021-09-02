@@ -1,6 +1,8 @@
 from django.shortcuts import redirect, render
 from django.contrib.auth.models import auth
 from main.models import Question
+from main.models import Response as ResponseModel
+
 from rest_framework import permissions
 from rest_framework import viewsets
 from rest_framework.response import Response
@@ -277,6 +279,36 @@ def addnewquestion(request):
 def getquestiondata(request):
   question = Question.objects.get(id=request.data["id"])
   return JsonResponse({"body":question.body})
+
+@api_view(['GET', 'POST'])
+@permission_classes([IsAuthenticated,])
+def addnewresponse(request):
+    print(request.user)
+    print(request.data["body"])
+    if request.data["body"]=='<p><br data-mce-bogus="1"></p>':
+      return JsonResponse({"error":"Response Cannot Be Empty"})
+    else:
+      response = ResponseModel()
+      response.user = request.user
+      response.body = request.data["body"]
+      response.question = Question.objects.get(id=request.data["questionid"])
+      response.save()
+      return JsonResponse({"success":"Question Added"})
+@api_view(['GET', 'POST'])
+@permission_classes([AllowAny,])
+def getresponsedata(request):
+  question = Question.objects.get(id=request.data["id"])
+  response = question.get_responses()
+  theResponses=[]
+  print(response)
+  for r in response:
+    theResponses.append({
+                          "id":  r.id,
+                          "body": r.body, 
+                          "authorname": r.user.username,
+                          "count":r.likes.filter().count()
+                          })
+  return JsonResponse({"body":theResponses})
 ###############################
 @api_view(['GET', 'POST'])
 @permission_classes([IsAuthenticated,])
@@ -296,6 +328,26 @@ def removelike(request):
   question.likes.remove(user)
   count = question.likes.filter().count()
   question.save()
+  return JsonResponse({"success":"removed","count":count})
+
+@api_view(['GET', 'POST'])
+@permission_classes([IsAuthenticated,])
+def addresponselike(request):
+  user=User.objects.get(id=request.data["userid"])
+  response=ResponseModel.objects.get(id=request.data["responseid"])
+  response.likes.add(user)
+  count = response.likes.filter().count()
+  response.save()
+  return JsonResponse({"success":"added","count":count})
+
+@api_view(['GET', 'POST'])
+@permission_classes([IsAuthenticated,])
+def removeresponselike(request):
+  user=User.objects.get(id=request.data["userid"])
+  response=ResponseModel.objects.get(id=request.data["responseid"])
+  response.likes.remove(user)
+  count = response.likes.filter().count()
+  response.save()
   return JsonResponse({"success":"removed","count":count})
 
 

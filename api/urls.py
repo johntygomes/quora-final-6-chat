@@ -1,4 +1,4 @@
-from .views import snippet_list,register,checkuser,registerlogingoogleuser,login,verifyemail,checkgoogleuserexists,registergoogleuser,logingoogleuser,questionlist,addnewquestion,getquestiondata,addlike,removelike
+from .views import snippet_list,register,checkuser,registerlogingoogleuser,login,verifyemail,checkgoogleuserexists,registergoogleuser,logingoogleuser,questionlist,addnewquestion,addnewresponse,getquestiondata,addlike,removelike,addresponselike,removeresponselike,getresponsedata
 from main.views import logoutMain
 from django.urls import path
 from rest_framework.authtoken.views import obtain_auth_token
@@ -15,9 +15,14 @@ urlpatterns = [
     path('verify-email', verifyemail,name='verify-email'),
     path('logout-main', logoutMain, name="logout-main"),
     path('question-list/', questionlist, name='question-list'),
+    #################################################################
     path('add-new-question/', addnewquestion, name='add-new-question'),
+    path('add-new-response/', addnewresponse, name='add-new-response'),
     path('get-question-data/', getquestiondata, name='get-question-data'),
+    path('get-response-data/', getresponsedata, name='get-response-data'),
     ################################################################
     path('add-like/', addlike, name='add-like'),
     path('remove-like/', removelike, name='remove-like'),
+    path('add-response-like/', addresponselike, name='add-response-like'),
+    path('remove-response-like/', removeresponselike, name='remove-response-like'),
 ]

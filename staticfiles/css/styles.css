@@ -14,7 +14,7 @@ a {
 }
 
 ul {
-    list-style: none;
+    list-style: disc;
     padding: 0;
 }
 
@@ -243,7 +243,6 @@ blockquote {
     height: 100%;
     width: 0;
     position: fixed;
-    z-index: 1;
     top: 0;
     left: 0;
     background-color: #111;
@@ -340,5 +339,8 @@ blockquote {
         display: block;
         transition: 0.3s;
         font-weight: normal;
+    }
+    #mySidenav {
+        z-index: 2 !important;
     }
 }
