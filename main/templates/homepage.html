@@ -12,7 +12,8 @@
       {{question.title}}
     </p>
     <p class="question-list-item-author">
-      by {{question.authorname}}
+    by <a href="{% url 'user-profile' question.authorname %}" target="_blank">{{question.authorname}}</a>
+    
     </p>
   </a>
   {% if question.doeslike %}

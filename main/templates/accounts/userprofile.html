@@ -1,0 +1,43 @@
+{% extends 'layouts/page.html'%}
+{% load static %}
+{% block content %}
+  {% if user.is_authenticated %}
+      <div style="border: 3px groove;" class="card text-center mt-5">
+            <div class="card-header">
+              <h2> {{ username }} </h2>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Questions:  {{ questioncount }}</li>
+                <li class="list-group-item">Answers:    {{ answercount }}</li>
+                <li class="list-group-item">Question Likes:      {{ questionlikescount }}</li>
+                <li class="list-group-item">Answer Likes:      {{ answerlikescount }}</li>
+                <li class="list-group-item">Total Likes:      {{ totallikescount }}</li>
+            </ul>
+            <div class="card-body">
+              <a href="#" class="card-link">Chat</a>
+              <a href="#" class="card-link">Donate</a>
+            </div>
+      </div>
+
+  {% else %}
+      <div class="container mt-3">
+              <div class="alert alert-danger d-flex align-items-center" role="alert">
+                  <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+                  <div>
+                    FAILURE
+                  </div>
+              </div>
+              <div class="alert alert-danger d-flex align-items-center" role="alert">
+                  <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+                  <div>
+                    YOU NEED TO LOGIN TO VIEW THIS PAGE
+                  </div>
+              </div>
+              <div style="display:flex;justify-content:center;">
+                  <h2> 
+                    <a href="{% url 'login-new' %}">LOGIN HERE</a>
+                  </h2>
+              </div>
+      </div>
+  {% endif %}
+{% endblock %}

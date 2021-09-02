@@ -3,7 +3,7 @@
 
 <blockquote id="{{response.id}}">
   <p id="p-{{response.id}}" class="response-body"></p>
-  <small class="response-author">by {{response.authorname}}</small>
+  <small class="response-author">by <a href="{% url 'user-profile' response.authorname %}" target="_blank">{{response.authorname}}</a></small>
 <!--
   {% if user.is_authenticated %}
     <button class="reply-button" onclick="handleReplyButton({{response.id}})">Reply</button>

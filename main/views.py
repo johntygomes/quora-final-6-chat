@@ -6,6 +6,7 @@ from .forms import RegisterUserForm, LoginForm, NewQuestionForm, NewResponseForm
 from django.conf import settings
 from utils.mail.mail_sender import MailSender
 import json
+from api.models import User
 
 # Create your views here.
 
@@ -182,4 +183,35 @@ def verifyemailfailed(request):
 def logoutMain(request):
     logout(request)
     return redirect('login-new')
+
+################################################################################################
+def userprofile(request,username):
+  user = User.objects.filter(username=username)
+  if user.exists():
+    questionLikes=0
+    answerLikes=0
+    totalLikes=0
+    q=Question.objects.filter(author=user[0])
+    r=Response.objects.filter(user=user[0])
+    questioncount = q.count()
+    answercount = r.count()
+    for i in q:
+      questionLikes = questionLikes + i.likes.count()
+    for i in r:
+      answerLikes = answerLikes + i.likes.count()
+    totalLikes = questionLikes + answerLikes
+    data  = {'username':user[0].username,
+              'questioncount': questioncount,
+              'answercount': answercount,
+              'questionlikescount': questionLikes,
+              'answerlikescount': answerLikes,
+              'totallikescount': totalLikes}
+  else:
+    data  = {'username':"No Such User Found",
+              'questioncount': "No Data To Display",
+              'answercount': "No Data To Display",
+              'questionlikescount': "No Data To Display",
+              'answerlikescount': "No Data To Display",
+              'totallikescount': "No Data To Display"}
+  return render(request,'accounts/userprofile.html',data)
 
