@@ -2,22 +2,65 @@
 {% load static %}
 {% block content %}
   {% if user.is_authenticated %}
-      <div style="border: 3px groove;" class="card text-center mt-5">
+      <div class="card text-center mt-5">
             <div class="card-header">
               <h2> {{ username }} </h2>
             </div>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">Questions:  {{ questioncount }}</li>
-                <li class="list-group-item">Answers:    {{ answercount }}</li>
-                <li class="list-group-item">Question Likes:      {{ questionlikescount }}</li>
-                <li class="list-group-item">Answer Likes:      {{ answerlikescount }}</li>
-                <li class="list-group-item">Total Likes:      {{ totallikescount }}</li>
-            </ul>
+            <div class="container">
+                <div class="row">
+                    <div class="col-6 border border-dark">
+                        Questions:
+                    </div>
+                    <div class="col-6 border border-dark">
+                        {{ questioncount }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6 border border-dark">
+                        Answers:
+                    </div>
+                    <div class="col-6 border border-dark">
+                        {{ answercount }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6 border border-dark">
+                        Question Likes:
+                    </div>
+                    <div class="col-6 border border-dark">
+                        {{ questionlikescount }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6 border border-dark">
+                        Answer Likes:
+                    </div>
+                    <div class="col-6 border border-dark">
+                        {{ answerlikescount }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6 border border-dark">
+                        Total Likes:
+                    </div>
+                    <div class="col-6 border border-dark">
+                        {{ totallikescount }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6 border border-dark">
+                        <b>Reputation Score:</b>
+                    </div>
+                    <div class="col-6 border border-dark">
+                        <b>{{ reputationscore }}</b>
+                    </div>
+                </div>
+            </div>
+        
             <div class="card-body">
               <a href="#" class="card-link">Chat</a>
               <a href="#" class="card-link">Donate</a>
             </div>
-      </div>
 
   {% else %}
       <div class="container mt-3">

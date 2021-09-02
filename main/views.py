@@ -200,18 +200,26 @@ def userprofile(request,username):
     for i in r:
       answerLikes = answerLikes + i.likes.count()
     totalLikes = questionLikes + answerLikes
+    if (questioncount+answercount) != 0:
+      reputationscore = totalLikes/(questioncount+answercount)
+    else:
+      reputationscore=0
     data  = {'username':user[0].username,
               'questioncount': questioncount,
               'answercount': answercount,
               'questionlikescount': questionLikes,
               'answerlikescount': answerLikes,
-              'totallikescount': totalLikes}
+              'totallikescount': totalLikes,
+              'reputationscore': reputationscore,
+              }
   else:
     data  = {'username':"No Such User Found",
               'questioncount': "No Data To Display",
               'answercount': "No Data To Display",
               'questionlikescount': "No Data To Display",
               'answerlikescount': "No Data To Display",
-              'totallikescount': "No Data To Display"}
+              'totallikescount': "No Data To Display",
+              'reputationscore': "No Data To Display",
+              }
   return render(request,'accounts/userprofile.html',data)
 
