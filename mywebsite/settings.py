@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework.authtoken',
     'main',
-    'api'
+    'api',
+    'chatapi'
 ]
 
 REST_FRAMEWORK = {
@@ -187,3 +188,4 @@ ROOTURL="https://quora-final-three.herokuapp.com"
 #https://stackoverflow.com/questions/15307623/cant-compare-naive-and-aware-datetime-now-challenge-datetime-end
 #https://stackoverflow.com/questions/403421/how-to-sort-a-list-of-objects-based-on-an-attribute-of-the-objects
 #https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
+#https://itsourcecode.com/free-projects/python-projects/chat-application-using-django-with-source-code/

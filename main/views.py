@@ -201,7 +201,7 @@ def userprofile(request,username):
       answerLikes = answerLikes + i.likes.count()
     totalLikes = questionLikes + answerLikes
     if (questioncount+answercount) != 0:
-      reputationscore = totalLikes/(questioncount+answercount)
+      reputationscore = round(totalLikes/(questioncount+answercount),1)
     else:
       reputationscore=0
     data  = {'username':user[0].username,
