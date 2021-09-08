@@ -32,6 +32,8 @@ ALLOWED_HOSTS = ["quora-final-three.herokuapp.com","localhost"]
 # Application definition
 
 INSTALLED_APPS = [
+    'channels',
+    'chatapi',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -43,7 +45,6 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'main',
     'api',
-    'chatapi'
 ]
 
 REST_FRAMEWORK = {
@@ -98,7 +99,6 @@ WSGI_APPLICATION = 'mywebsite.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 
-'''
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -116,6 +116,7 @@ DATABASES = {
         'PORT': 5432
     }
 }
+'''
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -171,8 +172,22 @@ EMAIL_HOST_USER = 'instanalysis7@gmail.com'
 EMAIL_HOST_PASSWORD = 'jesuslovesme1234.'
 #############################################
 
-# ROOTURL="http://localhost:5000"
-ROOTURL="https://quora-final-three.herokuapp.com"
+ROOTURL="http://localhost:5000"
+# ROOTURL="https://quora-final-three.herokuapp.com"
+
+ASGI_APPLICATION = 'mywebsite.asgi.application'
+
+# mysite/settings.py
+# Channels
+ASGI_APPLICATION = 'mywebsite.asgi.application'
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',
+        # 'CONFIG': {
+        #     "hosts": [('127.0.0.1', 6379)],
+        # },
+    },
+}
 
 
 
