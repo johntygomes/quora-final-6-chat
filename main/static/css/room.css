@@ -1,0 +1,31 @@
+body {
+    background-color: bisque;
+}
+
+.main-chat-wrapper {
+    position: relative;
+    left: 5%;
+    width: 90%;
+    height: 400px;
+    border: 2px solid teal;
+    overflow-y: scroll;
+}
+
+.message-container {
+    width: 80%;
+    margin-left: 1%;
+    margin-top: 5px;
+    background-color: rgba(226, 150, 150, 0.712);
+    border-radius: 10px;
+    overflow-wrap: break-word;
+}
+
+.message-title,
+.message-body {
+    margin-left: 5px;
+    padding: 3px;
+}
+
+.message-title {
+    font-weight: bold;
+}
