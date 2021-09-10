@@ -26,7 +26,7 @@ SECRET_KEY = '+q*p#-#2)u*p9t68n#tb)rn^$w7$wd8u)4qu^((61=2&lu8s8_'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["quora-dinal-three.herokuapp.com","localhost"]
+ALLOWED_HOSTS = ["quora-final-three.herokuapp.com","localhost"]
 
 
 # Application definition
@@ -110,10 +110,10 @@ DATABASES = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'd5o7tf13ld6tr0',
-        'USER': 'pbkbmntjtyxiso',
-        'PASSWORD': '2c527b810c9b1f8be52e21578564500e6d4c5852d5f51aa937a2c4aee9ddb843',
-        'HOST': 'ec2-3-225-204-194.compute-1.amazonaws.com',
+        'NAME': 'd2b923c0tnoe2m',
+        'USER': 'tgnhvfpjuzpwwc',
+        'PASSWORD': '3b26ed60a0119585acc027723928bddab2190edd4705e112efa731878232d992',
+        'HOST': 'ec2-44-195-16-34.compute-1.amazonaws.com',
         'PORT': 5432
     }
 }
