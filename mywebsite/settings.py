@@ -98,6 +98,7 @@ WSGI_APPLICATION = 'mywebsite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+'''
 
 DATABASES = {
     'default': {
@@ -109,14 +110,13 @@ DATABASES = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'dekl03r1ts3633',
-        'USER': 'aizsyxzwvwlazg',
-        'PASSWORD': '129df1ed044ade2947340b69dabaf1646b527e0d4124e58f06c54767aada1902',
-        'HOST': 'ec2-35-153-91-18.compute-1.amazonaws.com',
+        'NAME': 'd5o7tf13ld6tr0',
+        'USER': 'pbkbmntjtyxiso',
+        'PASSWORD': '2c527b810c9b1f8be52e21578564500e6d4c5852d5f51aa937a2c4aee9ddb843',
+        'HOST': 'ec2-3-225-204-194.compute-1.amazonaws.com',
         'PORT': 5432
     }
 }
-'''
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
