@@ -98,6 +98,7 @@ WSGI_APPLICATION = 'mywebsite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+
 '''
 
 DATABASES = {
@@ -117,7 +118,6 @@ DATABASES = {
         'PORT': 5432
     }
 }
-
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
@@ -172,8 +172,8 @@ EMAIL_HOST_USER = 'instanalysis7@gmail.com'
 EMAIL_HOST_PASSWORD = 'jesuslovesme1234.'
 #############################################
 
-ROOTURL="http://localhost:5000"
-# ROOTURL="https://quora-final-three.herokuapp.com"
+# ROOTURL="http://localhost:5000"
+ROOTURL="https://quora-final-three.herokuapp.com"
 
 ASGI_APPLICATION = 'mywebsite.asgi.application'
 
