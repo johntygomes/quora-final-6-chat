@@ -10,8 +10,10 @@
   </div>
 
   <div id="send-box">
-      <input id="chat-message-input" type="text">
-      <input id="chat-message-submit" type="button" value="Send">
+      <div class="row send-box-row">
+        <textarea id="chat-message-input" type="text" placeholder="Enter chat message" wrap="soft"></textarea>
+        <button class="btn btn-primary" id="chat-message-submit">SEND</button>
+      </div>
   </div>
 
   <input id="room-name" type="hidden" value="{{roomname}}"/>
@@ -19,6 +21,7 @@
   <script>
       const roomName = document.getElementById('room-name').value;
       const mainChatWrapper = document.getElementById('main-chat-wrapper')
+      const chatMessageInput = document.getElementById('chat-message-input')
       function addMessage(message,user) {
           const messageContainer = document.createElement('div')
           const messageTitle = document.createElement('div')
@@ -60,6 +63,10 @@
       };
 
       document.querySelector('#chat-message-submit').onclick = function(e) {
+          if(chatMessageInput.value===''){
+            alert('Please enter Some Message')
+            return;
+          }
           const messageInputDom = document.querySelector('#chat-message-input');
           const message = messageInputDom.value;
           chatSocket.send(JSON.stringify({

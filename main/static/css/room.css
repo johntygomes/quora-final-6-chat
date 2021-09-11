@@ -29,3 +29,18 @@ body {
 .message-title {
     font-weight: bold;
 }
+
+.send-box-row {
+    justify-content: center;
+    align-items: center;
+}
+
+#send-box {
+    position: relative;
+}
+
+#chat-message-input {
+    width: 100%;
+    word-wrap: break-word;
+    word-break: break-all;
+}
