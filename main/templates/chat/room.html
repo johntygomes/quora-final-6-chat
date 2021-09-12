@@ -1,8 +1,7 @@
 {% extends 'layouts/page.html'%}
 {% load static %}
-
 {% block content %}
-
+{% if user.is_authenticated %}
   <link rel="stylesheet" href="{% static 'css/room.css'%}">
   <h2>{{ roomname }} ROOM </h2>
  
@@ -76,4 +75,7 @@
           messageInputDom.value = '';
       };
   </script>
+{% else %}
+  {% include 'components/login_required.html' %}
+{% endif %}
 {% endblock %}
