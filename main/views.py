@@ -6,7 +6,7 @@ from .forms import RegisterUserForm, LoginForm, NewQuestionForm, NewResponseForm
 from django.conf import settings
 from utils.mail.mail_sender import MailSender
 import json
-from api.models import User
+from api.models import User,ForgotPasswordToken
 
 # Create your views here.
 
@@ -179,6 +179,28 @@ def verifyemailsuccess(request):
 
 def verifyemailfailed(request):
   return render(request,'accounts/verify-email-failed.html')
+
+def forgotpassword(request):
+  return render(request,'accounts/forgot-password.html')
+
+def confirmnewpassword(request,token):
+  context = {}
+  userToken = ForgotPasswordToken.objects.filter(token=token)
+  if userToken.exists():
+    user=userToken[0].user
+    context={
+      "valid_user": True,
+      "email" : user.email
+    }
+  else:
+    context={
+      "valid_user": False
+    }
+  return render(request,'accounts/confirm-new-password.html', context)
+
+def passwordresetstartfailed(request):
+  return render(request,'accounts/password-reset-start-failed.html')
+
 
 def logoutMain(request):
     logout(request)

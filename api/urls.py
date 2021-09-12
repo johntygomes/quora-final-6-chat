@@ -1,4 +1,4 @@
-from .views import snippet_list,register,checkuser,registerlogingoogleuser,login,verifyemail,checkgoogleuserexists,registergoogleuser,logingoogleuser,questionlist,addnewquestion,addnewresponse,getquestiondata,addlike,removelike,addresponselike,removeresponselike,getresponsedata
+from .views import snippet_list,register,checkuser,registerlogingoogleuser,login,verifyemail,checkgoogleuserexists,registergoogleuser,logingoogleuser,questionlist,addnewquestion,addnewresponse,getquestiondata,addlike,removelike,addresponselike,removeresponselike,getresponsedata,initiateresetpassword,forgotpasswordreset,submitnewpassword
 from main.views import logoutMain
 from django.urls import path
 from rest_framework.authtoken.views import obtain_auth_token
@@ -15,6 +15,9 @@ urlpatterns = [
     path('verify-email', verifyemail,name='verify-email'),
     path('logout-main', logoutMain, name="logout-main"),
     path('question-list/', questionlist, name='question-list'),
+    path('initiate-password-reset/', initiateresetpassword, name='initiate-password-reset'),
+    path('forgot-password-reset/', forgotpasswordreset, name='forgot-password-reset'),
+    path('submit-new-password/', submitnewpassword, name='submit-new-password'),
     #################################################################
     path('add-new-question/', addnewquestion, name='add-new-question'),
     path('add-new-response/', addnewresponse, name='add-new-response'),

@@ -67,4 +67,9 @@ class GoogleUserPasswordModel(models.Model):
   user = models.ForeignKey(User,on_delete=models.CASCADE,related_name="googleuser")
   plain_text_password = models.CharField(max_length=255)
 
+class ForgotPasswordToken(models.Model):
+  user = models.ForeignKey(User,on_delete=models.CASCADE,related_name="forgotpassworduser")
+  token = models.UUIDField()
+  created_time = models.DateTimeField(_('time_created'), auto_now_add=True)
+
 

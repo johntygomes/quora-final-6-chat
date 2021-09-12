@@ -15,12 +15,12 @@ import random
 import hashlib
 import hmac
 import base64
-from .models import EmailVerificationTokenModel
+from .models import EmailVerificationTokenModel,ForgotPasswordToken
 from datetime import datetime, timedelta, date
 import time
 from uuid import uuid4
 from django.contrib.auth.hashers import make_password
-from utils.mail.mail_sender import EmailVerificationMailSender
+from utils.mail.mail_sender import EmailVerificationMailSender,PasswordResetMailSender
 from django.conf import settings
 
 
@@ -349,21 +349,48 @@ def removeresponselike(request):
   count = response.likes.filter().count()
   response.save()
   return JsonResponse({"success":"removed","count":count})
+#############################################
+@api_view(['GET', 'POST'])
+@permission_classes([AllowAny,])
+def initiateresetpassword(request):
+  user=User.objects.filter(email=request.data["email"])
+  if user.exists():
+    if user[0].auth_type == 'google':
+      return JsonResponse({"error":"This Email Is Linked With Google Account. Please Login With Google."})
+    forgotPasswordToken = ForgotPasswordToken()
+    forgotPasswordToken.user = user[0]
+    rand_token = uuid4()
+    forgotPasswordToken.token = rand_token
+    current_site = get_current_site(request).domain
+    relativeLink = reverse('forgot-password-reset')
+    absUrl = 'http://'+current_site+relativeLink+'?token='+str(rand_token)+'&email='+user[0].email
+    print("Reset Password:: ",absUrl)
+    passwordResetMailUtility = PasswordResetMailSender(user[0])
+    passwordResetMailUtility.sendUserPasswordResetMessage(absUrl)
+    forgotPasswordToken.save()
+    return JsonResponse({"success":"A Password Reset Link Has Been Sent To Your Email"})
+  else:
+    return JsonResponse({"error":"User With This Email Does Not Exist"})
 
+@api_view(['GET',])
+@permission_classes([AllowAny,])
+def forgotpasswordreset(request):
+  token = request.GET.get('token')
+  passwordReset = ForgotPasswordToken.objects.filter(token=token)
+  if passwordReset.exists():
+    current_time = utc.localize(datetime.utcnow())
+    timeTokenCreatedPlus30Minutes = passwordReset[0].created_time + timedelta(minutes=30)
+    if current_time > timeTokenCreatedPlus30Minutes:
+      return redirect(settings.ROOTURL+'/accounts/password-reset-start-failed')
+    return redirect(settings.ROOTURL+'/accounts/confirm-new-password/'+str(token))
+  return redirect(settings.ROOTURL+'/accounts/password-reset-start-failed')
 
-'''
-{
-"username":"johnty",
-"email":"johnty@gmail.com",
-"password":"12345678"
-}
-
-{
-"email":"johnty@gmail.com",
-"username":"johnty",
-"password":"12345678",
-"auth_type":"google"
-}
-Like.objects.filter(user=User.objects.get(id=1),question=Question.objects.get(id=1))
-
-'''
+@api_view(['POST',])
+@permission_classes([AllowAny,])
+def submitnewpassword(request):
+  email = request.data["email"]
+  password = request.data["password"]
+  user = User.objects.get(email=email)
+  user.set_password(password)
+  user.save()
+  return JsonResponse({"success":"Password Has Been Reset. Click Login Button Below To Login With Your New Password."})

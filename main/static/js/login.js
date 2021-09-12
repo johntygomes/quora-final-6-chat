@@ -46,6 +46,10 @@ function loginUser() {
         });
 }
 
+function gotoForgotPassword() {
+    window.location.href = rootUrl + '/accounts/forgot-password';
+}
+
 function hideGoogleAlert() {
     if (document.querySelector("#custom-error-div")) {
         document.querySelector("#custom-error-div").remove();
